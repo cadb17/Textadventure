@@ -19,3 +19,11 @@ int main() {
 
 	}
 }
+
+openal32.lib
+sfml-audio-d.lib
+sfml-graphics-d.lib
+sfml-main-d.lib
+sfml-network-d.lib
+sfml-system-d.lib
+sfml-window-d.lib

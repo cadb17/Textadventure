@@ -15,11 +15,12 @@ void handleEvent(sf::Keyboard::Key &key, int &scene) {
 	}
 }
 
-void draw(int &scene, sf::Time &t, sf::RenderWindow &window, sf::Texture &texture1, sf::Sprite &sprite1, sf::Texture &texture2, sf::Sprite &sprite2, sf::Font &header, sf::Font &standard, sf::Text &text1, sf::Text &text2, int &lastScene) {
+inline void draw(int &scene, sf::Time &t, sf::RenderWindow &window, sf::Texture &texture1, sf::Sprite &sprite1, sf::Texture &texture2, sf::Sprite &sprite2, sf::Font &header, sf::Font &standard, sf::Text &text1, sf::Text &text2, int &lastScene, sf::Sound &sound, sf::SoundBuffer &sound_buffer) {
 	window.clear();
 	std::string text;
 	sf::RectangleShape black;
 	int lScene = scene;
+	bool playSound = false;
 	double t2;
 	switch (scene)
 	{
@@ -38,20 +39,20 @@ void draw(int &scene, sf::Time &t, sf::RenderWindow &window, sf::Texture &textur
 			text2.setPosition(window.getSize().x * 0.2f, window.getSize().y * 0.5f);
 			text2.setCharacterSize(160);
 			text2.setString("Irgendwo in Paris");
-		window.draw(text1);
-		window.draw(text2);
+			window.draw(text1);
+			window.draw(text2);
 
 		break;
 	case 1:
-		if (t.asMilliseconds() >= 17200) {
+		if (t.asMilliseconds() >= 17010) {
 			++scene;
 			t = t.Zero;
 			t = t.Zero;
 		}
-		//if (scene != lastScene) {
+		if (scene != lastScene) {
 			texture1.loadFromFile("brennendes_Haus.png");
 			sprite1.setTexture(texture1);
-		//}
+		}
 		window.draw(sprite1);
 		if (t.asMilliseconds() >= 15000) {
 			t2 = t.asSeconds() - 15;
@@ -98,28 +99,69 @@ void draw(int &scene, sf::Time &t, sf::RenderWindow &window, sf::Texture &textur
 			text = "Hausmutter: \"Elise! Schrei nicht so herum. Andere wollen nachts schlafen!\"\n";
 			text += "Elise: \"Bitte Mama, ich werde nicht wieder schreien. Ich versprechs!\"\n";
 			text += "Hausmutter: \"Natürlich wirst du das! Aber im Keller!\"\n";
-			text += "Elise schluchst.";
+			text += "Elise schluchzt.";
 			text2.setString(text);
 		}
 		window.draw(text2);
 		break;
 	case 4:
 		if (scene != lastScene) {
-			texture1.loadFromFile("keller.png");
+			texture1.loadFromFile("keller_heller.png");
 		}
 		sprite1.setTexture(texture1);
 		window.draw(sprite1);
 		break;
 	case 5:
+		if (scene != lastScene) {
+			text2.setFont(standard);
+			text2.setPosition(window.getSize().x * 0.05f, window.getSize().y * 0.1f);
+			text2.setCharacterSize(45);
+
+			text = "Wieso tut sie mir dass nur an?\n";
+			text += "Ich verstehe es nicht!\n";
+			text += "Und dieser Traum, er hört einfach nicht auf mich zu verfolgen...\n";
+			text += "Ich wünschte... Nanu? Was ist denn das? Ein rostiger Schmuckkasten?!\n";
+			text += "*Knirsch*\n";
+			text += "Scheint so als wäre im Kasten Platz für zwei Medaillons, jedoch ist nur eines vorhanden.\n";
+			text += "Im inneren des Medaillons ist ein Bild einer Dame, neben ihr ist gerade noch eine Schulter\n";
+			text += "zu erkennen, allerdings fehlt die andere Hälfte.\n";
+			text += "*Elise betrachtet das Bild näher*\n";
+			text += "Was? Das kann nicht. Darf nicht. Kann nicht. Aber ist das vielleicht doch meine Mutter!";
+			text2.setString(text);
+			
+		}
+		window.draw(text2);
+		break;
+	case 6:
+		if (scene != lastScene) {
+			texture1.loadFromFile("Waisenhaus.png");
+		}
+		sprite1.setTexture(texture1);
+		window.draw(sprite1);
+		break;
+	case 14:
+		t = t.Zero;
+		++scene;
+		break;
+	case 15:
+		if (scene != lastScene) {
+			texture1.loadFromFile("Waisenhaus.png");
+		}
+		sprite1.setTexture(texture1);
+		window.draw(sprite1);
+		break;
 	}
 	window.display();
+	if (playSound) {
+		sound.play();
+	}
 	lastScene = lScene;
 }
 
 
 int main() {
 	sf::RenderWindow window;
-	window.create(/*sf::VideoMode::getFullscreenModes().at(0)*/sf::VideoMode(1920,1080), "Textadventure @ Code and Design", sf::Style::Fullscreen);
+	window.create(/*sf::VideoMode::getFullscreenModes().at(0)*/sf::VideoMode(1920,1080), "Textadventure @ Code and Design"/*, sf::Style::Fullscreen*/);
 	sf::Texture texture1;
 	sf::Sprite sprite1;
 	sf::Texture texture2;
@@ -129,6 +171,9 @@ int main() {
 	sf::Text text1;
 	sf::Text text2;
 	sf::Time timer;
+	sf::Sound sound;
+	sf::SoundBuffer sound_buffer;
+
 	headline.loadFromFile("headline.ttf");
 	stdfont.loadFromFile("times.ttf");
 
@@ -152,7 +197,7 @@ int main() {
 			
 		}
 		timer += clock.restart();
-		draw(currentScene, timer, window, texture1, sprite1, texture2, sprite2, headline, stdfont, text1, text2, lastScene);
+		draw(currentScene, timer, window, texture1, sprite1, texture2, sprite2, headline, stdfont, text1, text2, lastScene, sound, sound_buffer);
 	}
 	return 0;
 

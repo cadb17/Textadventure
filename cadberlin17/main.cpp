@@ -13,6 +13,7 @@ void handleEvent(sf::Keyboard::Key &key, int &scene) {
 	default:
 		break;
 	}
+	std::cout << std::to_string(scene) << std::endl;
 }
 
 inline void draw(int &scene, sf::Time &t, sf::RenderWindow &window, sf::Texture &texture1, sf::Sprite &sprite1, sf::Texture &texture2, sf::Sprite &sprite2, sf::Font &header, sf::Font &standard, sf::Text &text1, sf::Text &text2, int &lastScene, sf::Sound &sound, sf::SoundBuffer &sound_buffer) {
@@ -24,11 +25,17 @@ inline void draw(int &scene, sf::Time &t, sf::RenderWindow &window, sf::Texture 
 	double t2;
 	switch (scene)
 	{
+	case -1:
+		if (scene != lastScene) {
+			texture1.loadFromFile("brennendes_Haus.png");
+			sprite1.setTexture(texture1);
+		}
+		window.draw(sprite1);
+		break;
 	case 0:
 		if (t.asMilliseconds() >= 5000) {
 			++scene;
 			t = t.Zero;
-			return;
 		}
 		
 			text1.setFont(header);
@@ -47,9 +54,12 @@ inline void draw(int &scene, sf::Time &t, sf::RenderWindow &window, sf::Texture 
 		if (t.asMilliseconds() >= 17010) {
 			++scene;
 			t = t.Zero;
-			t = t.Zero;
+			return;
 		}
 		if (scene != lastScene) {
+			sound_buffer.loadFromFile("sturm.ogg");
+			sound.setBuffer(sound_buffer);
+			playSound = 1;
 			texture1.loadFromFile("brennendes_Haus.png");
 			sprite1.setTexture(texture1);
 		}
@@ -105,11 +115,28 @@ inline void draw(int &scene, sf::Time &t, sf::RenderWindow &window, sf::Texture 
 		window.draw(text2);
 		break;
 	case 4:
+		if (t.asMilliseconds() >= 8010) {
+			++scene;
+			t = t.Zero;
+			return;
+		}
 		if (scene != lastScene) {
 			texture1.loadFromFile("keller_heller.png");
+
+			sprite1.setTexture(texture1);
 		}
-		sprite1.setTexture(texture1);
 		window.draw(sprite1);
+		if (t.asMilliseconds() >= 6000) {
+			t2 = t.asSeconds() - 6;
+			t2 = 255 * t2 / 2;
+			if (t2 > 255) {
+				t2 = 255;
+			}
+			std::cout << std::to_string(t2) << std::endl;
+			black.setFillColor(sf::Color(0, 0, 0, t2));
+			black.setSize(sf::Vector2f(1920, 1080));
+			window.draw(black);
+		}
 		break;
 	case 5:
 		if (scene != lastScene) {
@@ -126,34 +153,114 @@ inline void draw(int &scene, sf::Time &t, sf::RenderWindow &window, sf::Texture 
 			text += "Im inneren des Medaillons ist ein Bild einer Dame, neben ihr ist gerade noch eine Schulter\n";
 			text += "zu erkennen, allerdings fehlt die andere Hälfte.\n";
 			text += "*Elise betrachtet das Bild näher*\n";
-			text += "Was? Das kann nicht. Darf nicht. Kann nicht. Aber ist das vielleicht doch meine Mutter!";
+			text += "Was? Das kann nicht. Darf nicht. Kann einfach nicht sein, aber das ist vielleicht doch meine Mutter!";
 			text2.setString(text);
 			
 		}
 		window.draw(text2);
 		break;
 	case 6:
+		if (t.asMilliseconds() >= 8010) {
+			++scene;
+			t = t.Zero;
+			return;
+		}
 		if (scene != lastScene) {
 			texture1.loadFromFile("Waisenhaus.png");
+
+			sprite1.setTexture(texture1);
 		}
-		sprite1.setTexture(texture1);
 		window.draw(sprite1);
+		if (t.asMilliseconds() >= 6000) {
+			t2 = t.asSeconds() - 6;
+			t2 = 255 * t2 / 2;
+			if (t2 > 255) {
+				t2 = 255;
+			}
+			std::cout << std::to_string(t2) << std::endl;
+			black.setFillColor(sf::Color(0, 0, 0, t2));
+			black.setSize(sf::Vector2f(1920, 1080));
+			window.draw(black);
+		}
 		break;
+	case 7:
+		if (scene != lastScene) {
+			text2.setFont(standard);
+			text2.setPosition(window.getSize().x * 0.05f, window.getSize().y * 0.1f);
+			text2.setCharacterSize(45);
+
+			text = "Ich kann einfach nicht mehr. Hier halte ich es keine Sekunde länger aus.\n";
+			text += "Das ist doch kein Leben!\n";
+			text += "Maman sagte immer: \"Vis la vie comme tu veux\" (Lebe das Leben, so wie du es möchtest)\n";
+			text += "Es reicht mir jetzt, ich breche aus!\n";
+			text += "Ich hänge das Medaillon besser um meinen Hals.\n";
+			text += "Und nun keinen Mux machen, damit ich nicht erwischt werde.\n";
+			text += "Es ist wirklich kalt hier draußen, ich spüre meine Finger kaum noch.\n";
+			text += "Brrr\n";
+			text2.setString(text);
+
+		}
+		window.draw(text2);
+		break;
+
+	case 8:
+		if (t.asMilliseconds() >= 8010) {
+			++scene;
+			t = t.Zero;
+			return;
+		}
+		if (scene != lastScene) {
+			texture1.loadFromFile("gasse_1.png");
+
+			sprite1.setTexture(texture1);
+		}
+		window.draw(sprite1);
+		if (t.asMilliseconds() >= 6000) {
+			t2 = t.asSeconds() - 6;
+			t2 = 255 * t2 / 2;
+			if (t2 > 255) {
+				t2 = 255;
+			}
+			std::cout << std::to_string(t2) << std::endl;
+			black.setFillColor(sf::Color(0, 0, 0, t2));
+			black.setSize(sf::Vector2f(1920, 1080));
+			window.draw(black);
+		}
+		break;
+
 	case 14:
 		t = t.Zero;
 		++scene;
 		break;
 	case 15:
 		if (scene != lastScene) {
+			t = t.Zero;
 			texture1.loadFromFile("Waisenhaus.png");
+			sprite1.setTexture(texture1);
 		}
-		sprite1.setTexture(texture1);
+		t2 = t.asSeconds();
+			if (t2 <= 2) {
+				
+				std::cout << std::to_string(t.asSeconds()) << std::endl;
+				t2 = 1 - t2 / 4;
+				sprite1.setScale(sf::Vector2f(t2, t2));
+			}
+			else {
+				if (t2 != 0.5) {
+					t2 = 0.5;
+					sprite1.setScale(sf::Vector2f(t2, t2));
+				}
+			}
+			
+			
+		
 		window.draw(sprite1);
 		break;
 	}
 	window.display();
 	if (playSound) {
 		sound.play();
+		playSound = 0;
 	}
 	lastScene = lScene;
 }
@@ -179,8 +286,8 @@ int main() {
 
 
 	sf::Event event;
-	int currentScene = 0;
-	int lastScene = 0;
+	int currentScene = -1;
+	int lastScene = -2;
 	sf::Clock clock;
 	while (window.isOpen()) {
 		while (window.pollEvent(event)) {

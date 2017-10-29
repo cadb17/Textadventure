@@ -29,8 +29,13 @@ inline void draw(int &scene, sf::Time &t, sf::RenderWindow &window, sf::Texture 
 		if (scene != lastScene) {
 			texture1.loadFromFile("brennendes_Haus.png");
 			sprite1.setTexture(texture1);
+			text1.setFont(header);
+			text1.setPosition(window.getSize().x * 0.26f, window.getSize().y * 0.8f);
+			text1.setCharacterSize(120);
+			text1.setString("Press a key to start!");
 		}
 		window.draw(sprite1);
+		window.draw(text1);
 		break;
 	case 0:
 		if (t.asMilliseconds() >= 5000) {
